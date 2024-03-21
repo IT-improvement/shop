@@ -28,6 +28,11 @@ public class UserManager {
 	}
 
 	/* R(select) */
+	// select User
+	public User get(int index) {
+		return userList.get(index);
+	}
+
 	// find Id index
 	public int selectId(String id) {
 		for (int i = 0; i < userList.size(); i++) {
