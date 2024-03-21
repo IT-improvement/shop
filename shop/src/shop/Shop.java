@@ -8,7 +8,14 @@ public class Shop {
 
 	private Scanner scan = new Scanner(System.in);
 
-	private UserManager userManager = UserManager.getInstance();
+	private UserManager userManager;
+
+	private int log;
+
+	public Shop() {
+		userManager = UserManager.getInstance();
+		log = -1;
+	}
 	// Shop Project
 	// class : Item, ItemManager, User, UserManager, Cart, FileManager Shop
 
@@ -47,7 +54,47 @@ public class Shop {
 
 	public void run() {
 		while (true) {
-
+			start();
 		}
 	}
+
+	/* 시작메뉴 */
+	private void start() {
+		printStartMenu();
+		startMenu(inputNum("메뉴 선택"));
+	}
+
+	// Start Menu Output
+	private void printStartMenu() {
+		System.out.println("1)로그인");
+		System.out.println("2)회원가입");
+	}
+
+	// Start Menu
+	private void startMenu(int sel) {
+		if (sel == 1)
+			login();
+//		if (sel == 2)
+//			signUp();
+	}
+	
+	//login Method()
+	private void login() {
+		String id = inputString("아이디");
+		String pw = inputString("비밀번호");
+		log = isCheckUser(id, pw);
+	}
+	
+	//find User Method()
+	private int isCheckUser(String id, String pw) {
+		int index = userManager.selectId(id);
+		if (userManager.checkPassword(index, pw)) {
+			return index;
+		}
+		return -1;
+	}
+
+	/* 유저기능 */
+	/* 관리자기능 */
+
 }
