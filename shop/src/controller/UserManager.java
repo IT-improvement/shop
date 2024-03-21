@@ -21,6 +21,12 @@ public class UserManager {
 	}
 
 	/* C(insert) */
+	public boolean addUser(String name, String id, String password, int money) {
+		User user = new User(name, id, password, money);
+		userList.add(user);
+		return true;
+	}
+
 	/* R(select) */
 	// find Id index
 	public int selectId(String id) {
@@ -37,8 +43,7 @@ public class UserManager {
 		User user = userList.get(index);
 		return user.getPassword().equals(pw) ? true : false;
 	}
-	
-	
+
 	/* U(update) */
 	/* D(delete) */
 }
