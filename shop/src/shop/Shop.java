@@ -137,14 +137,37 @@ public class Shop {
 
 	// admin menu
 	private void adminMenu(int sel) {
-//		if (sel == 1)
-//			adminSubMenu();
-		if (sel == 2)
+		if (sel == 1)
+			adminSubMenu();
+		else if (sel == 2)
 			totalSales();
 	}
 
 	// admin subMenu about Menu1
+	private void adminSubMenu() {
+		printAdminSubmenu();
+		adminSubmenu(inputNum("서브메뉴"));
+	}
 
+	// admin submenu Output
+	private void printAdminSubmenu() {
+		System.out.println("1)등록");
+		System.out.println("2)삭제");
+		System.out.println("3)수정");
+	}
+
+	// admin submenu
+	private void adminSubmenu(int sel) {
+		if(sel==1)
+			addItem();
+		else if(sel==2)
+			deleteItem();
+		else if(sel==3)
+			modifyItem();
+	}
+	
+	
+	
 	// total Sales Output
 	private void totalSales() {
 		User user = userManager.get(log);
