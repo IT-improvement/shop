@@ -22,7 +22,8 @@ public class UserManager {
 
 	/* C(insert) */
 	/* R(select) */
-	private int selectId(String id) {
+	// find Id index
+	public int selectId(String id) {
 		for (int i = 0; i < userList.size(); i++) {
 			User user = userList.get(i);
 			if (user.getId().equals(id))
@@ -30,6 +31,14 @@ public class UserManager {
 		}
 		return -1;
 	}
+
+	// check Password
+	public boolean checkPassword(int index, String pw) {
+		User user = userList.get(index);
+		return user.getPassword().equals(pw) ? true : false;
+	}
+	
+	
 	/* U(update) */
 	/* D(delete) */
 }
