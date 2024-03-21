@@ -74,24 +74,45 @@ public class Shop {
 	private void startMenu(int sel) {
 		if (sel == 1)
 			login();
-//		if (sel == 2)
-//			signUp();
+		if (sel == 2)
+			signUp();
 	}
-	
-	//login Method()
+
+	// login Method()
 	private void login() {
 		String id = inputString("아이디");
 		String pw = inputString("비밀번호");
 		log = isCheckUser(id, pw);
+		if (log == -1) {
+			System.out.println("비밀번호가 일치하지 않습니다.");
+		}
 	}
-	
-	//find User Method()
+
+	// find User Method()
 	private int isCheckUser(String id, String pw) {
 		int index = userManager.selectId(id);
 		if (userManager.checkPassword(index, pw)) {
 			return index;
 		}
 		return -1;
+	}
+
+	// signUp Method()
+	private void signUp() {
+		String id = inputString("아이디");
+		if (userManager.selectId(id) != -1) {
+			System.err.println("이미 있는 아이디입니다.");
+			return;
+		}
+		String pw = inputString("비밀번호");
+		String pwCheck = inputString("재입력");
+		if (!pw.equals(pwCheck)) {
+			System.out.println("비밀번호가 일치하지 않습니다.");
+			return;
+		}
+		String name = inputString("이름");
+		int money = inputNum("가지고 있는 금액");
+		userManager.addUser(name, id, name, money);
 	}
 
 	/* 유저기능 */
