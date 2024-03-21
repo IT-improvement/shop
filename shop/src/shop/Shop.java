@@ -1,8 +1,11 @@
 package shop;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Scanner;
 
 import controller.UserManager;
+import dto.User;
 
 public class Shop {
 
@@ -55,6 +58,10 @@ public class Shop {
 	public void run() {
 		while (true) {
 			start();
+			if (log == 0)
+				admin();
+//			else if(log!=-1&&log!=0)
+//				user();
 		}
 	}
 
@@ -117,5 +124,33 @@ public class Shop {
 
 	/* 유저기능 */
 	/* 관리자기능 */
+	private void admin() {
+		printAdminMenu();
+		adminMenu(inputNum("메뉴입력"));
+	}
 
+	// amdin menu Output
+	private void printAdminMenu() {
+		System.out.println("1)아이템");
+		System.out.println("2)조회(매출)");
+	}
+
+	// admin menu
+	private void adminMenu(int sel) {
+//		if (sel == 1)
+//			adminSubMenu();
+		if (sel == 2)
+			totalSales();
+	}
+
+	// admin subMenu about Menu1
+
+	// total Sales Output
+	private void totalSales() {
+		User user = userManager.get(log);
+		NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.KOREA);
+
+		int total = user.getMoney();
+		System.out.println("총 매출액: " + nf.format(total));
+	}
 }
