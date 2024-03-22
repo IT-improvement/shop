@@ -145,7 +145,7 @@ public class Shop {
 			System.err.println("금액을 올바르게 입력하세요.");
 			return;
 		}
-		userManager.addUser(name, id, name, money);
+		userManager.addUser(name, id, pw, money);
 		fileManager.savaUser();
 	}
 
