@@ -33,7 +33,7 @@ public class Shop {
 	
 	private void load() {
 		fileManager.loadItem();
-		
+		fileManager.loadUser();
 	}
 	// Shop Project
 	// class : Item, ItemManager, User, UserManager, Cart, FileManager Shop
