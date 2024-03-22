@@ -1,10 +1,33 @@
 package dto;
 
+
 public class User {
 	private String name;
 	private String id;
 	private String password;
-	private String money;
+	private int money;
+	private Cart cart;
+
+	public User(String name, String id, String password, int money) {
+		this.name = name;
+		this.id = id;
+		this.password = password;
+		this.money = money;
+	}
+
+	public User(String name, String id, String password) {
+		this.name = name;
+		this.id = id;
+		this.password = password;
+	}
+	
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
 
 	public String getName() {
 		return name;
@@ -30,11 +53,11 @@ public class User {
 		this.password = password;
 	}
 
-	public String getMoney() {
+	public int getMoney() {
 		return money;
 	}
 
-	public void setMoney(String money) {
+	public void setMoney(int money) {
 		this.money = money;
 	}
 
