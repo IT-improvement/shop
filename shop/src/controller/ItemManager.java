@@ -36,7 +36,7 @@ public class ItemManager {
 	}
 
 	public ArrayList<Item> addCart(ArrayList<Item> carts, int index, int count) {
-		Item item = itemList.get(index);
+		Item item = itemList.get(index-1);
 		for (int i = 0; i < count; i++)
 			carts.add(item);
 		return carts;
