@@ -408,6 +408,7 @@ public class Shop {
 		int price = exceptionPrice();
 		Item item = new Item(code, name, price);
 		itemManager.add(item);
+		fileManager.saveItem();
 	}
 
 	// exception price
@@ -429,6 +430,7 @@ public class Shop {
 		}
 		System.out.println("삭제되었습니다");
 		itemManager.remove(index);
+		fileManager.saveItem();
 	}
 
 	// modifyItem item
@@ -445,6 +447,7 @@ public class Shop {
 		String name = inputString("이름입력");
 		int price = exceptionPrice();
 		itemManager.update(index, name, price);
+		fileManager.saveItem();
 	}
 
 	// total Sales Output
