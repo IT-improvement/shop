@@ -59,6 +59,10 @@ public class UserManager {
 		userList.get(index).setCart(cart);
 	}
 	
+	public void updateUser(int index, User user) {
+		userList.set(index, user);
+	}
+	
 
 	/* D(delete) */
 	public void remove(int index) {
