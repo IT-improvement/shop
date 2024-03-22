@@ -65,6 +65,10 @@ public class ItemManager {
 	}
 
 	/* R(select) */
+	public ArrayList<Item> getAll() {
+		return (ArrayList<Item>) itemList.clone();
+	}
+
 	public int indexOf(int code) {
 		for (int i = 0; i < itemList.size(); i++) {
 			Item item = itemList.get(i);
