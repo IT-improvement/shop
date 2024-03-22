@@ -64,8 +64,8 @@ public class Shop {
 			start();
 			if (log == 0)
 				admin();
-//			else if(log!=-1&&log!=0)
-//				user();
+			else if (log != -1 && log != 0)
+				user();
 		}
 	}
 
@@ -126,8 +126,20 @@ public class Shop {
 		userManager.addUser(name, id, name, money);
 	}
 
-	/* 유저기능 */
-	/* 관리자기능 */
+	/* User Function */
+	private void user() {
+		printUserMenu();
+	}
+	
+	
+	private void printUserMenu() {
+		System.out.println("1)회원탈퇴");
+		System.out.println("2)로그아웃");
+		System.out.println("3)쇼핑하기");
+		System.out.println("4)마이페이지");
+	}
+
+	/* Admin Function */
 	private void admin() {
 		printAdminMenu();
 		adminMenu(inputNum("메뉴입력"));
