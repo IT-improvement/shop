@@ -5,9 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 
+import dto.Cart;
 import dto.Item;
+import dto.User;
 
 public class FileManager {
 
@@ -51,7 +52,7 @@ public class FileManager {
 			fr = new FileReader(fileItem);
 			br = new BufferedReader(fr);
 			while (br.ready()) {
-				data += br.readLine()+"\n";
+				data += br.readLine() + "\n";
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -83,6 +84,36 @@ public class FileManager {
 			fw.close();
 		} catch (Exception e) {
 			System.err.println("파일저장 오류(아이템)");
+		}
+	}
+
+	public void savaUser() {
+		ArrayList<User> list = userManager.getAll();
+		String data = "";
+
+		for (User user : list) {
+			data += user.getName() + "," + user.getId() + "," + user.getPassword() + "," + user.getMoney();
+			Cart cart = user.getCart();
+			String temp = "";
+			if (cart.getSize() != 0) {
+				ArrayList<Item> carts = cart.clone();
+				ArrayList<Integer> count = cart.getCount();
+				int cnt = cart.getSize();
+				for (int i = 0; i < cnt; i++) {
+					temp += carts.get(i).getCode() + "@" + count.get(i) + "-";
+				}
+				temp = temp.substring(0, temp.length() - 1);
+				data += ","+temp;
+			}
+			data += "\n";
+		}
+
+		try {
+			fw = new FileWriter(fileUser);
+			fw.write(data);
+			fw.close();
+		} catch (Exception e) {
+			System.err.println("파일저장 오류(유저)");
 		}
 	}
 }
