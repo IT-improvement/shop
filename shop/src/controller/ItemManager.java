@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
+import dto.Cart;
 import dto.Item;
 
 public class ItemManager {
@@ -35,11 +36,32 @@ public class ItemManager {
 		return true;
 	}
 
-	public ArrayList<Item> addCart(ArrayList<Item> carts, int index, int count) {
-		Item item = itemList.get(index-1);
-		for (int i = 0; i < count; i++)
-			carts.add(item);
-		return carts;
+	public Cart addCart(Cart cart, int index, int count) {
+		Item item = itemList.get(index - 1);
+		ArrayList<Item> carts = cart.clone();
+		ArrayList<Integer> counts = cart.getCount();
+		boolean isCheck = false;
+		int idx = -1;
+		for (int i = 0; i < carts.size(); i++)
+			if (carts.get(i).getCode() == item.getCode()) {
+				isCheck = true;
+				idx = i;
+			}
+		try {
+			if (isCheck) {
+				int n = counts.get(idx);
+				n += count;
+				counts.set(idx, n);
+			} else {
+				carts.add(item);
+				counts.add(count);
+			}
+		} catch (Exception e) {
+			System.err.println("장바구니 추가 오류");
+		}
+		cart.setCarts(carts);
+		cart.setCount(counts);
+		return cart;
 	}
 
 	/* R(select) */
