@@ -129,14 +129,38 @@ public class Shop {
 	/* User Function */
 	private void user() {
 		printUserMenu();
+		userMenu(inputNum("메뉴입력"));
 	}
-	
-	
+
+	// user menu Output
 	private void printUserMenu() {
 		System.out.println("1)회원탈퇴");
 		System.out.println("2)로그아웃");
 		System.out.println("3)쇼핑하기");
 		System.out.println("4)마이페이지");
+	}
+
+	// user Menu
+	private void userMenu(int sel) {
+		if (sel == 1)
+			deleteUser();
+//		else if (sel == 2)
+//			logOut();
+//		else if (sel == 3)
+//			purchase();
+//		else if (sel == 4)
+//			myPage();
+	}
+
+	// delete user Method
+	private void deleteUser() {
+		String pw = inputString("비밀번호입력");
+		if (!userManager.checkPassword(log, pw)) {
+			System.err.println("비밀번호가 일치하지 않습니다.");
+			return;
+		}
+		userManager.remove(log);
+		log = -1;
 	}
 
 	/* Admin Function */
