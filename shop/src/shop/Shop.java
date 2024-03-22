@@ -146,6 +146,7 @@ public class Shop {
 			return;
 		}
 		userManager.addUser(name, id, name, money);
+		fileManager.savaUser();
 	}
 
 	/* User Function */
@@ -182,6 +183,7 @@ public class Shop {
 			return;
 		}
 		userManager.remove(log);
+		fileManager.savaUser();
 		log = -1;
 	}
 
@@ -209,6 +211,7 @@ public class Shop {
 			return;
 		}
 		updateCart(index, num);
+		fileManager.savaUser();
 	}
 
 	// update Cart
@@ -216,6 +219,7 @@ public class Shop {
 		Cart cart = userManager.getCart(log);
 		cart = itemManager.addCart(cart, index, num);
 		userManager.updateCart(log, cart);
+		fileManager.savaUser();
 	}
 
 	// exception item index
@@ -270,6 +274,7 @@ public class Shop {
 		}
 		cart = update(cart, index - 1);
 		userManager.updateCart(log, cart);
+		fileManager.savaUser();
 	}
 
 	// Cart update(overload)
@@ -300,6 +305,7 @@ public class Shop {
 			cart = update(cart, index - 1, count);
 		}
 		userManager.updateCart(log, cart);
+		fileManager.savaUser();
 	}
 
 	// cart update(overlode)
@@ -327,6 +333,7 @@ public class Shop {
 		String sel = inputString("결제하시겠습니까?(1:에/나머지:아니오)");
 		if (sel.equals("1")) {
 			checkPurchase(total);
+			fileManager.savaUser();
 		}
 	}
 
