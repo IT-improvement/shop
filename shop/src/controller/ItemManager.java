@@ -35,6 +35,13 @@ public class ItemManager {
 		return true;
 	}
 
+	public ArrayList<Item> addCart(ArrayList<Item> carts, int index, int count) {
+		Item item = itemList.get(index);
+		for (int i = 0; i < count; i++)
+			carts.add(item);
+		return carts;
+	}
+
 	/* R(select) */
 	public int indexOf(int code) {
 		for (int i = 0; i < itemList.size(); i++) {
