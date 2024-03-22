@@ -1,11 +1,13 @@
 package shop;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
 import controller.ItemManager;
 import controller.UserManager;
+import dto.Cart;
 import dto.Item;
 import dto.User;
 
@@ -47,7 +49,7 @@ public class Shop {
 			String temp = scan.next();
 			num = Integer.parseInt(temp);
 		} catch (Exception e) {
-			System.err.print(message + "입력 오류: 숫자만 입력하세요.");
+			System.err.println("입력 오류: 숫자만 입력하세요.");
 		}
 
 		return num;
@@ -62,10 +64,12 @@ public class Shop {
 	public void run() {
 		while (true) {
 			start();
-			if (log == 0)
-				admin();
-			else if (log != -1 && log != 0)
-				user();
+			while (log != -1) {
+				if (log == 0)
+					admin();
+				else if (log != 0)
+					user();
+			}
 		}
 	}
 
@@ -85,23 +89,27 @@ public class Shop {
 	private void startMenu(int sel) {
 		if (sel == 1)
 			login();
-		if (sel == 2)
+		else if (sel == 2)
 			signUp();
 	}
 
 	// login Method()
 	private void login() {
 		String id = inputString("아이디");
+		int index = userManager.selectId(id);
+		if (index == -1) {
+			System.err.println("없는 아이디입니다.");
+			return;
+		}
 		String pw = inputString("비밀번호");
-		log = isCheckUser(id, pw);
+		log = isCheckUser(index, pw);
 		if (log == -1) {
-			System.out.println("비밀번호가 일치하지 않습니다.");
+			System.err.println("비밀번호가 일치하지 않습니다.");
 		}
 	}
 
 	// find User Method()
-	private int isCheckUser(String id, String pw) {
-		int index = userManager.selectId(id);
+	private int isCheckUser(int index, String pw) {
 		if (userManager.checkPassword(index, pw)) {
 			return index;
 		}
@@ -146,8 +154,8 @@ public class Shop {
 			deleteUser();
 		else if (sel == 2)
 			logOut();
-//		else if (sel == 3)
-//			purchase();
+		else if (sel == 3)
+			purchase();
 //		else if (sel == 4)
 //			myPage();
 	}
@@ -162,10 +170,41 @@ public class Shop {
 		userManager.remove(log);
 		log = -1;
 	}
-	
+
 	// logout Method
 	private void logOut() {
-		log=-1;
+		log = -1;
+	}
+
+	// purchase Method
+	private void purchase() {
+		System.out.println("판패현황>>>");
+		itemManager.selectAll();
+		int index = inputNum("번호입력");
+		if (!exceptionItemIndex(index)) {
+			System.err.println("번호를 다시 입력하세요");
+			return;
+		}
+		int num = inputNum("수량 입력");
+		if (num < 0) {
+			System.err.println("1개 이상 입력하세요.");
+			return;
+		}
+		updateCart(index, num);
+	}
+
+	// update Cart
+	private void updateCart(int index, int num) {
+		Cart cart = userManager.getCart(log);
+		ArrayList<Item> carts = cart.clone();
+		carts = itemManager.addCart(carts, index, num);
+		cart.setCarts(carts);
+		userManager.updateCart(log, cart);
+	}
+
+	// exception item index
+	private boolean exceptionItemIndex(int index) {
+		return index < 1 || index > itemManager.size() ? false : true;
 	}
 
 	/* Admin Function */
@@ -178,6 +217,7 @@ public class Shop {
 	private void printAdminMenu() {
 		System.out.println("1)아이템");
 		System.out.println("2)조회(매출)");
+		System.out.println("3)로그아웃");
 	}
 
 	// admin menu
@@ -186,6 +226,8 @@ public class Shop {
 			adminSubMenu();
 		else if (sel == 2)
 			totalSales();
+		else if (sel == 3)
+			logOut();
 	}
 
 	// admin subMenu about Menu1
@@ -213,6 +255,7 @@ public class Shop {
 
 	// addItem Method
 	private void addItem() {
+		itemManager.selectAllAdmin();
 		int code = itemManager.creatCode();
 		String name = inputString("이름입력");
 		int price = exceptionPrice();
