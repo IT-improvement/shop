@@ -19,6 +19,10 @@ public class ItemManager {
 	}
 
 	/* C(insert) */
+	public void set(ArrayList<Item> itemList) {
+		this.itemList = itemList;
+	}
+
 	public int creatCode() {
 		while (true) {
 			boolean isCheck = true;
