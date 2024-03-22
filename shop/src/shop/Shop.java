@@ -332,7 +332,23 @@ public class Shop {
 		money -= total;
 		user.setMoney(money);
 		userManager.updateUser(log, user);
+		printBill(total, money);
 
+		// edit Admin
+		user = userManager.get(0);
+		money = user.getMoney();
+		money += total;
+		user.setMoney(money);
+		userManager.updateUser(0, user);
+
+	}
+
+	private void printBill(int total, int money) {
+		System.out.println("--------------");
+		myJang();
+		System.out.println("총 결제금액: " + nf.format(total));
+		System.out.println("남은 현금: " + nf.format(money));
+		System.out.println("--------------");
 	}
 
 	/* Admin Function */
