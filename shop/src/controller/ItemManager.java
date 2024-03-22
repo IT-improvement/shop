@@ -45,6 +45,14 @@ public class ItemManager {
 		return -1;
 	}
 
+	public void selectAll() {
+		int i = 1;
+		for (Item item : itemList) {
+			System.out.println(i + ")" + item.getName() + "(" + item.getPrice() + ")");
+			i++;
+		}
+	}
+
 	public Item get(int index) {
 		return itemList.get(index);
 	}
