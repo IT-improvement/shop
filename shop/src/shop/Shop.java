@@ -14,6 +14,7 @@ import dto.User;
 public class Shop {
 
 	private Scanner scan = new Scanner(System.in);
+	private NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.KOREA);
 
 	private UserManager userManager;
 	private ItemManager itemManager;
@@ -126,11 +127,15 @@ public class Shop {
 		String pw = inputString("비밀번호");
 		String pwCheck = inputString("재입력");
 		if (!pw.equals(pwCheck)) {
-			System.out.println("비밀번호가 일치하지 않습니다.");
+			System.err.println("비밀번호가 일치하지 않습니다.");
 			return;
 		}
 		String name = inputString("이름");
-		int money = inputNum("가지고 있는 금액");
+		int money = inputNum("가지고 있는 금액(100원단위)");
+		if (money < 0 || money % 100 != 0) {
+			System.err.println("금액을 올바르게 입력하세요.");
+			return;
+		}
 		userManager.addUser(name, id, name, money);
 	}
 
@@ -229,10 +234,10 @@ public class Shop {
 			myJang();
 		else if (sel == 2)
 			deleteJang();
-//		else if(sel==3)
-//			editJang();
-//		else if(sel==4)
-//			userPurchase();
+		else if (sel == 3)
+			editJang();
+		else if (sel == 4)
+			userPurchase();
 	}
 
 	// myJang Method
@@ -254,11 +259,11 @@ public class Shop {
 			System.err.println("번호가 일치하지 않습니다");
 			return;
 		}
-		cart = update(cart, index-1);
+		cart = update(cart, index - 1);
 		userManager.updateCart(log, cart);
 	}
-	
-	// Cart updat(override)
+
+	// Cart update(overload)
 	private Cart update(Cart cart, int index) {
 		ArrayList<Item> carts = cart.clone();
 		ArrayList<Integer> count = cart.getCount();
@@ -268,6 +273,66 @@ public class Shop {
 		cart.setCarts(carts);
 		cart.setCount(count);
 		return cart;
+	}
+
+	// edit jang
+	private void editJang() {
+		Cart cart = userManager.getCart(log);
+		int index = inputNum("항목번호입력");
+		if (index < 0 || index > cart.getSize()) {
+			System.err.println("번호가 일치하지 않습니다");
+			return;
+		}
+		int count = inputNum("수량입력");
+		if (count == 0) {
+			System.err.println("항목삭제메뉴를 이용하세요");
+			return;
+		} else {
+			cart = update(cart, index - 1, count);
+		}
+		userManager.updateCart(log, cart);
+	}
+
+	// cart update(overlode)
+	private Cart update(Cart cart, int index, int num) {
+		ArrayList<Item> carts = cart.clone();
+		ArrayList<Integer> count = cart.getCount();
+		count.set(index, num);
+		cart.setCarts(carts);
+		cart.setCount(count);
+		return cart;
+	}
+
+	// user purchase
+	private void userPurchase() {
+		int total = 0;
+		Cart cart = userManager.getCart(log);
+		ArrayList<Item> carts = cart.clone();
+		ArrayList<Integer> count = cart.getCount();
+		for (int i = 0; i < cart.getSize(); i++) {
+			Item item = carts.get(i);
+			int price = item.getPrice();
+			total += count.get(i) * price;
+		}
+		System.out.println("총 결제금액: " + nf.format(total));
+		String sel = inputString("결제하시겠습니까?(1:에/나머지:아니오)");
+		if (sel.equals("1")) {
+			checkPurchase(total);
+		}
+	}
+
+	// checkPurchase
+	private void checkPurchase(int total) {
+		User user = userManager.get(log);
+		int money = user.getMoney();
+		if (money < total) {
+			System.err.println("현금이 부족합니다.");
+			return;
+		}
+		money -= total;
+		user.setMoney(money);
+		userManager.updateUser(log, user);
+
 	}
 
 	/* Admin Function */
@@ -366,7 +431,6 @@ public class Shop {
 	// total Sales Output
 	private void totalSales() {
 		User user = userManager.get(log);
-		NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.KOREA);
 
 		int total = user.getMoney();
 		System.out.println("총 매출액: " + nf.format(total));
