@@ -28,6 +28,12 @@ public class Shop {
 		itemManager = ItemManager.getInstance();
 		fileManager = FileManager.getInstance();
 		log = -1;
+		load();
+	}
+	
+	private void load() {
+		fileManager.loadItem();
+		
 	}
 	// Shop Project
 	// class : Item, ItemManager, User, UserManager, Cart, FileManager Shop
