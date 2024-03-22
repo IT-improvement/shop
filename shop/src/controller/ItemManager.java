@@ -34,8 +34,33 @@ public class ItemManager {
 		itemList.add(item);
 		return true;
 	}
+
 	/* R(select) */
+	public int indexOf(int code) {
+		for (int i = 0; i < itemList.size(); i++) {
+			Item item = itemList.get(i);
+			if (item.getCode() == code)
+				return i;
+		}
+		return -1;
+	}
+
+	public Item get(int index) {
+		return itemList.get(index);
+	}
+
 	/* U(update) */
+	public void update(int index, String name, int price) {
+		Item item = itemList.get(index);
+		item.setName(name);
+		item.setPrice(price);
+		itemList.remove(index);
+		itemList.add(index, item);
+	}
+
 	/* D(delete) */
+	public void remove(int index) {
+		itemList.remove(index);
+	}
 
 }
