@@ -22,6 +22,10 @@ public class UserManager {
 	}
 
 	/* C(insert) */
+	public void set(ArrayList<User> userList) {
+		this.userList = userList;
+	}
+	
 	public boolean addUser(String name, String id, String password, int money) {
 		User user = new User(name, id, password, money);
 		userList.add(user);
