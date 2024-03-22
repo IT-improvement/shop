@@ -51,4 +51,7 @@ public class UserManager {
 
 	/* U(update) */
 	/* D(delete) */
+	public void remove(int index) {
+		userList.remove(index);
+	}
 }
