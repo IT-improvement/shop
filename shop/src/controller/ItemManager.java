@@ -57,6 +57,10 @@ public class ItemManager {
 		return itemList.get(index);
 	}
 
+	public int size() {
+		return itemList.size();
+	}
+
 	/* U(update) */
 	public void update(int index, String name, int price) {
 		Item item = itemList.get(index);
