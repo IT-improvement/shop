@@ -1,5 +1,11 @@
 package dto;
 
-public class Cart {
+import java.util.ArrayList;
 
+public class Cart {
+	ArrayList<Item> carts;
+
+	public Cart() {
+		carts = new ArrayList<>();
+	}
 }
