@@ -60,6 +60,14 @@ public class ItemManager {
 		}
 	}
 
+	public void selectAllAdmin() {
+		int i = 1;
+		for (Item item : itemList) {
+			System.out.println(i + ")" + item.getName() + "(" + item.getPrice() + ")" + "/" + item.getCode());
+			i++;
+		}
+	}
+
 	public Item get(int index) {
 		return itemList.get(index);
 	}
