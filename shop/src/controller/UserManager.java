@@ -2,6 +2,7 @@ package controller;
 
 import java.util.ArrayList;
 
+import dto.Cart;
 import dto.User;
 
 public class UserManager {
@@ -49,7 +50,16 @@ public class UserManager {
 		return user.getPassword().equals(pw) ? true : false;
 	}
 
+	public Cart getCart(int index) {
+		return userList.get(index).getCart();
+	}
+
 	/* U(update) */
+	public void updateCart(int index, Cart cart) {
+		userList.get(index).setCart(cart);
+	}
+	
+
 	/* D(delete) */
 	public void remove(int index) {
 		userList.remove(index);
