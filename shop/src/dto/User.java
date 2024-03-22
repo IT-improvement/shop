@@ -20,6 +20,7 @@ public class User {
 		this.name = name;
 		this.id = id;
 		this.password = password;
+		cart = new Cart();
 	}
 	
 	public Cart getCart() {
