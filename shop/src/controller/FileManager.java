@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import dto.Cart;
 import dto.Item;
@@ -55,7 +56,7 @@ public class FileManager {
 				data += br.readLine() + "\n";
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.err.println("로드실패(아이템)");
 		}
 		String datas[] = data.split("\n");
 		ArrayList<Item> items = new ArrayList<>();
@@ -68,6 +69,55 @@ public class FileManager {
 			items.add(item);
 		}
 		itemManager.set(items);
+	}
+
+	public void loadUser() {
+		if (!fileUser.exists())
+			return;
+
+		String data = "";
+		try {
+			fr = new FileReader(fileUser);
+			br = new BufferedReader(fr);
+			while (br.ready()) {
+				data += br.readLine() + "\n";
+			}
+		} catch (Exception e) {
+			System.err.println("로드실패(유저)");
+		}
+		String datas[] = data.split("\n");
+		ArrayList<User> users = new ArrayList<>();
+
+		for (int i = 0; i < datas.length; i++) {
+			String temp[] = datas[i].split(",");
+
+			String name = temp[0];
+			String id = temp[1];
+			String pw = temp[2];
+			int price = Integer.parseInt(temp[3]);
+
+			User user = new User(name, id, pw, price);
+
+			Cart cart = new Cart();
+			if (temp.length != 4) { // case: no jang
+				ArrayList<Item> carts = new ArrayList<>();
+				ArrayList<Integer> count = new ArrayList<>();
+
+				String tmp[] = temp[4].split("-");
+				for (int j = 0; j < tmp.length; j++) {
+					int code = Integer.parseInt(tmp[j].split("@")[0]);
+					int cnt = Integer.parseInt(tmp[j].split("@")[1]);
+					Item item = itemManager.indexOfCode(code);
+					carts.add(item);
+					count.add(cnt);
+				}
+				cart.setCarts(carts);
+				cart.setCount(count);
+			}
+			user.setCart(cart);
+			users.add(user);
+		}
+		userManager.set(users);
 	}
 
 	/* SAVE */
@@ -103,7 +153,7 @@ public class FileManager {
 					temp += carts.get(i).getCode() + "@" + count.get(i) + "-";
 				}
 				temp = temp.substring(0, temp.length() - 1);
-				data += ","+temp;
+				data += "," + temp;
 			}
 			data += "\n";
 		}
