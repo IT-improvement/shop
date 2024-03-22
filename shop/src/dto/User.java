@@ -13,6 +13,7 @@ public class User {
 		this.id = id;
 		this.password = password;
 		this.money = money;
+		cart = new Cart();
 	}
 
 	public User(String name, String id, String password) {
