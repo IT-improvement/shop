@@ -156,8 +156,8 @@ public class Shop {
 			logOut();
 		else if (sel == 3)
 			purchase();
-//		else if (sel == 4)
-//			myPage();
+		else if (sel == 4)
+			myPage();
 	}
 
 	// delete user Method
@@ -200,15 +200,74 @@ public class Shop {
 	// update Cart
 	private void updateCart(int index, int num) {
 		Cart cart = userManager.getCart(log);
-		ArrayList<Item> carts = cart.clone();
-		carts = itemManager.addCart(carts, index, num);
-		cart.setCarts(carts);
+		cart = itemManager.addCart(cart, index, num);
 		userManager.updateCart(log, cart);
 	}
 
 	// exception item index
 	private boolean exceptionItemIndex(int index) {
 		return index < 1 || index > itemManager.size() ? false : true;
+	}
+
+	// myPage
+	private void myPage() {
+		printmyPage();
+		myPageMenu(inputNum("서브메뉴입력"));
+	}
+
+	// myPage subMenu Output
+	private void printmyPage() {
+		System.out.println("1)내 장바구니");
+		System.out.println("2)항목 취소");
+		System.out.println("3)수량 수정");
+		System.out.println("4)결제");
+	}
+
+	// myPageMenu
+	private void myPageMenu(int sel) {
+		if (sel == 1)
+			myJang();
+		else if (sel == 2)
+			deleteJang();
+//		else if(sel==3)
+//			editJang();
+//		else if(sel==4)
+//			userPurchase();
+	}
+
+	// myJang Method
+	private void myJang() {
+		Cart cart = userManager.getCart(log);
+		ArrayList<Item> carts = cart.clone();
+		ArrayList<Integer> count = cart.getCount();
+		for (int i = 0; i < carts.size(); i++) {
+			Item item = carts.get(i);
+			System.out.printf("%d) %s(%d개)\n", (i + 1), item.getName(), count.get(i));
+		}
+	}
+
+	// delete jang
+	private void deleteJang() {
+		Cart cart = userManager.getCart(log);
+		int index = inputNum("항목번호입력");
+		if (index < 0 || index > cart.getSize()) {
+			System.err.println("번호가 일치하지 않습니다");
+			return;
+		}
+		cart = update(cart, index-1);
+		userManager.updateCart(log, cart);
+	}
+	
+	// Cart updat(override)
+	private Cart update(Cart cart, int index) {
+		ArrayList<Item> carts = cart.clone();
+		ArrayList<Integer> count = cart.getCount();
+
+		carts.remove(index);
+		count.remove(index);
+		cart.setCarts(carts);
+		cart.setCount(count);
+		return cart;
 	}
 
 	/* Admin Function */
