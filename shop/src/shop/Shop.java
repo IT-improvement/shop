@@ -178,6 +178,10 @@ public class Shop {
 
 	// purchase Method
 	private void purchase() {
+		if (itemManager.size() == 0) {
+			System.err.println("구매할 상품이 없습니다");
+			return;
+		}
 		System.out.println("판패현황>>>");
 		itemManager.selectAll();
 		int index = inputNum("번호입력");
