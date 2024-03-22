@@ -347,6 +347,8 @@ public class Shop {
 		}
 		money -= total;
 		user.setMoney(money);
+		Cart cart = new Cart();
+		user.setCart(cart);
 		userManager.updateUser(log, user);
 		printBill(total, money);
 
