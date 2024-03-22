@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 
+import controller.FileManager;
 import controller.ItemManager;
 import controller.UserManager;
 import dto.Cart;
@@ -18,12 +19,14 @@ public class Shop {
 
 	private UserManager userManager;
 	private ItemManager itemManager;
+	private FileManager fileManager;
 
 	private int log;
 
 	public Shop() {
 		userManager = UserManager.getInstance();
 		itemManager = ItemManager.getInstance();
+		fileManager = FileManager.getInstance();
 		log = -1;
 	}
 	// Shop Project
