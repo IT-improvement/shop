@@ -82,6 +82,16 @@ public class ItemManager {
 		return -1;
 	}
 
+	public Item indexOfCode(int code) {
+		Item result = null;
+		for (int i = 0; i < itemList.size(); i++) {
+			Item item = itemList.get(i);
+			if (item.getCode() == code)
+				result = itemList.get(i);
+		}
+		return result;
+	}
+
 	public void selectAll() {
 		int i = 1;
 		for (Item item : itemList) {
