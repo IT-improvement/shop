@@ -4,7 +4,9 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Scanner;
 
+import controller.ItemManager;
 import controller.UserManager;
+import dto.Item;
 import dto.User;
 
 public class Shop {
@@ -12,11 +14,13 @@ public class Shop {
 	private Scanner scan = new Scanner(System.in);
 
 	private UserManager userManager;
+	private ItemManager itemManager;
 
 	private int log;
 
 	public Shop() {
 		userManager = UserManager.getInstance();
+		itemManager = ItemManager.getInstance();
 		log = -1;
 	}
 	// Shop Project
@@ -158,16 +162,60 @@ public class Shop {
 
 	// admin submenu
 	private void adminSubmenu(int sel) {
-		if(sel==1)
+		if (sel == 1)
 			addItem();
-		else if(sel==2)
+		else if (sel == 2)
 			deleteItem();
-		else if(sel==3)
+		else if (sel == 3)
 			modifyItem();
 	}
-	
-	
-	
+
+	// addItem Method
+	private void addItem() {
+		int code = itemManager.creatCode();
+		String name = inputString("이름입력");
+		int price = exceptionPrice();
+		Item item = new Item(code, name, price);
+		itemManager.add(item);
+	}
+
+	// exception price
+	private int exceptionPrice() {
+		int num = 1;
+		while (num < 1 || num % 100 != 0) {
+			num = inputNum("가격입력");
+		}
+		return num;
+	}
+
+	// deleteItem Method
+	private void deleteItem() {
+		int code = inputNum("코드입력");
+		int index = itemManager.indexOf(code);
+		if (index == -1) {
+			System.err.println("아이템이 없습니다.");
+			return;
+		}
+		System.out.println("삭제되었습니다");
+		itemManager.remove(index);
+	}
+
+	// modifyItem item
+	private void modifyItem() {
+		int code = inputNum("코드입력");
+		int index = itemManager.indexOf(code);
+		if (index == -1) {
+			System.err.println("아이템이 없습니다.");
+			return;
+		}
+		Item item = itemManager.get(index);
+
+		System.out.println("이름:" + item.getName());
+		String name = inputString("이름입력");
+		int price = exceptionPrice();
+		itemManager.update(index, name, price);
+	}
+
 	// total Sales Output
 	private void totalSales() {
 		User user = userManager.get(log);
