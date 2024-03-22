@@ -30,6 +30,10 @@ public class UserManager {
 
 	/* R(select) */
 	// select User
+	public ArrayList<User> getAll() {
+		return (ArrayList<User>) userList.clone();
+	}
+
 	public User get(int index) {
 		return userList.get(index);
 	}
@@ -58,11 +62,10 @@ public class UserManager {
 	public void updateCart(int index, Cart cart) {
 		userList.get(index).setCart(cart);
 	}
-	
+
 	public void updateUser(int index, User user) {
 		userList.set(index, user);
 	}
-	
 
 	/* D(delete) */
 	public void remove(int index) {
