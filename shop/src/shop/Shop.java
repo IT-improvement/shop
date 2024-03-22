@@ -144,8 +144,8 @@ public class Shop {
 	private void userMenu(int sel) {
 		if (sel == 1)
 			deleteUser();
-//		else if (sel == 2)
-//			logOut();
+		else if (sel == 2)
+			logOut();
 //		else if (sel == 3)
 //			purchase();
 //		else if (sel == 4)
@@ -161,6 +161,11 @@ public class Shop {
 		}
 		userManager.remove(log);
 		log = -1;
+	}
+	
+	// logout Method
+	private void logOut() {
+		log=-1;
 	}
 
 	/* Admin Function */
